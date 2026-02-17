@@ -1,0 +1,15 @@
+{
+  "symbol": "AAPL",
+  "kind": "stock",
+  "price": 255.77999877929688,
+  "currency": "USD",
+  "asof_unix": 1771242955,
+  "source": "Yahoo Finance via yfinance (unofficial; best-effort)",
+  "extra": {
+    "exchange": "NMS",
+    "timezone": "America/New_York",
+    "shortName": "Apple Inc.",
+    "marketState": "CLOSED"
+  },
+  "_cached_at": 1771242955
+}

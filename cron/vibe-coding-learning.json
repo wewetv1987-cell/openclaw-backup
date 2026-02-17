@@ -1,0 +1,122 @@
+{
+  "tasks": {
+    "vibe-coding-daily-reading": {
+      "name": "每日 Vibe Coding 阅读",
+      "description": "每天阅读 Vibe Coding 相关教程和文章",
+      "schedule": "0 9 * * *",
+      "timezone": "Asia/Shanghai",
+      "agent": "main",
+      "enabled": false,
+      "actions": [
+        {
+          "type": "web_fetch",
+          "target": "https://github.com/datawhalechina/vibe-code",
+          "parse": "extract_tutorial_content"
+        },
+        {
+          "type": "memory_write",
+          "path": "memory/daily/vibe-coding-{date}.md",
+          "content": "summarize_learned_content"
+        }
+      ]
+    },
+    "vibe-coding-weekly-practice": {
+      "name": "每周 Vibe Coding 实践",
+      "description": "每周日使用 Vibe Coding 完成一个小项目",
+      "schedule": "0 10 * * 0",
+      "timezone": "Asia/Shanghai",
+      "agent": "coder",
+      "enabled": false,
+      "actions": [
+        {
+          "type": "project_create",
+          "description": "Create a new project using Vibe Coding",
+          "project_type": "random_simple"
+        },
+        {
+          "type": "code_generate",
+          "use_vibe_coding": true
+        },
+        {
+          "type": "test_verify",
+          "run_tests": true
+        },
+        {
+          "type": "memory_write",
+          "path": "memory/weekly/vibe-coding-{week}.md",
+          "content": "document_project_and_learnings"
+        }
+      ]
+    },
+    "vibe-coding-pattern-review": {
+      "name": "提示词模式回顾",
+      "description": "回顾和更新 Vibe Coding 提示词模式库",
+      "schedule": "0 18 * * 3",
+      "timezone": "Asia/Shanghai",
+      "agent": "main",
+      "enabled": false,
+      "actions": [
+        {
+          "type": "memory_read",
+          "path": "memory/knowledge/vibe-coding/patterns.md"
+        },
+        {
+          "type": "analyze",
+          "task": "Review recent sessions and identify new effective patterns"
+        },
+        {
+          "type": "memory_update",
+          "path": "memory/knowledge/vibe-coding/patterns.md",
+          "content": "add_new_patterns"
+        }
+      ]
+    },
+    "vibe-coding-monthly-review": {
+      "name": "每月 Vibe Coding 进度回顾",
+      "description": "回顾月度学习进度和成果",
+      "schedule": "0 20 1 * *",
+      "timezone": "Asia/Shanghai",
+      "agent": "main",
+      "enabled": false,
+      "actions": [
+        {
+          "type": "memory_read",
+          "paths": [
+            "memory/LEARNING_SYSTEM.md",
+            "memory/knowledge/vibe-coding/basics.md",
+            "memory/weekly/vibe-coding-*"
+          ]
+        },
+        {
+          "type": "analyze",
+          "task": "Generate monthly progress report"
+        },
+        {
+          "type": "memory_write",
+          "path": "memory/monthly/vibe-coding-{month}.md",
+          "content": "monthly_progress_report"
+        }
+      ]
+    }
+  },
+  "triggers": {
+    "on_vibe_coding_session": {
+      "enabled": true,
+      "actions": [
+        {
+          "type": "extract",
+          "what": ["prompt_used", "result_quality", "iterations_needed"]
+        },
+        {
+          "type": "memory_append",
+          "path": "memory/sessions/vibe-coding-{date}.json"
+        },
+        {
+          "type": "if",
+          "condition": "result_quality > 8",
+          "then": "update_pattern_library"
+        }
+      ]
+    }
+  }
+}

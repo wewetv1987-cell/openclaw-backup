@@ -1,0 +1,34 @@
+# OpenClaw 工作空间 .gitignore
+
+# 敏感文件
+*.key
+*.pem
+*.crt
+*.env
+.env.local
+.env.*.local
+
+# 日志文件
+*.log
+logs/
+
+# 运行时数据
+node_modules/
+dist/
+build/
+*.tmp
+*.temp
+
+# 编辑器文件
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# OpenClaw 特定
+.openclaw/
+.clawhub/lock.json
